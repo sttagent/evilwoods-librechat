@@ -13,10 +13,11 @@
 
 services:
   api:
-#     volumes:
-#     - type: bind
-#       source: ./librechat.yaml
-#       target: /app/librechat.yaml
+    volumes:
+      - /mnt/storage/containers/service-data/librechat/volumes/api/images:/app/client/public/images
+      - /mnt/storage/containers/service-data/librechat/volumes/api/uploads:/app/uploads
+      - /mnt/storage/containers/service-data/librechat/volumes/api/logs:/app/logs
+      - /mnt/storage/containers/service-data/librechat/volumes/api/skill:/app/skill
     container_name: "dockhand-librechat"
     image: registry.librechat.ai/danny-avila/librechat:latest
     extra_hosts:
@@ -37,12 +38,22 @@ services:
   mongodb:
     networks:
       - librechat
+    volumes:
+      - /mnt/storage/containers/service-data/librechat/volumes/mongodb/data-node:/data/db
   meilisearch:
     networks:
       - librechat
+    volumes:
+      - /mnt/storage/containers/service-data/librechat/volumes/meili/meili_data_v1.35.1:/meili_data
   vectordb:
+    environment:
+      POSTGRES_DB: librechat
+      POSTGRES_USER: librechat
+      POSTGRES_PASSWORD: librechat
     networks:
       - librechat
+    volumes:
+      - /mnt/storage/containers/service-data/librechat/volumes/vectordb/data:/var/lib/postgresql/data
   rag_api:
     networks:
       - librechat
