@@ -14,6 +14,9 @@
 services:
   api:
     volumes:
+      - type: bind
+        source: /mnt/storage/containers/service-data/librechat/volumes/api/app.env
+        target: /app/.env
       - /mnt/storage/containers/service-data/librechat/volumes/api/images:/app/client/public/images
       - /mnt/storage/containers/service-data/librechat/volumes/api/uploads:/app/uploads
       - /mnt/storage/containers/service-data/librechat/volumes/api/logs:/app/logs
