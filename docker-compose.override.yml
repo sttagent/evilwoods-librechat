@@ -46,10 +46,6 @@ services:
     volumes:
       - /mnt/storage/containers/service-data/librechat/volumes/meili/meili_data_v1.35.1:/meili_data
   vectordb:
-    environment:
-      POSTGRES_DB: librechat
-      POSTGRES_USER: librechat
-      POSTGRES_PASSWORD: librechat
     networks:
       - librechat
     volumes:
