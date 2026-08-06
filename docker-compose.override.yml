@@ -50,6 +50,8 @@ services:
 
 
 networks:
+  librechat:
+    internal: true
   evilnet:
     external: true
 
