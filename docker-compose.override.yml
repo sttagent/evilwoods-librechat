@@ -15,6 +15,9 @@ services:
   api:
     volumes:
       - type: bind
+        source: ./librechat.yaml
+        target: /app/librechat.yaml
+      - type: bind
         source: /mnt/storage/containers/service-data/librechat/volumes/api/app.env
         target: /app/.env
       - /mnt/storage/containers/service-data/librechat/volumes/api/images:/app/client/public/images
