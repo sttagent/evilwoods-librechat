@@ -873,7 +873,7 @@ memory:
 #   # (optional) Disable memory functionality
   disabled: false
 #   # (optional) Restrict memory keys to specific values to limit memory storage and improve consistency
-  validKeys: ["preferences", "work_info", "personal_info", "skills", "interests", "context"]
+  validKeys: ["preferences", "work_info", "personal_info", "skills", "interests", "context", "important_facts", "user_requested"]
 #   # (optional) Maximum token limit for stored memory values
   tokenLimit: 10000
 #   # (optional) Maximum tokens from recent chat sent to the memory agent before truncation
@@ -883,6 +883,7 @@ memory:
   personalize: true
 #   # (optional) Memory agent configuration for automatic memory updates from chat messages.
 #   # If omitted, users can still create, edit, delete, and reference memories manually.
+  messageWindowSize: 10
   agent:
 #     # Explicitly enables automatic memory updates from chat messages.
     enabled: true
@@ -891,7 +892,32 @@ memory:
 #     # Option 2: Define agent inline
     provider: "OpenRouter"
     model: "deepseek/deepseek-v4-flash-0731"
-    instructions: "You are a memory management assistant. Store and manage user information accurately."
+    # instructions: "You are a memory management assistant. Store and manage user information accurately."
+    instructions: |
+      You manage the user's persistent memory, stored as key/value pairs.
+      You may CREATE, UPDATE, or DELETE entries based on the conversation.
+
+      ALLOWED KEYS (use only these, never invent new ones):
+        personal_info   – stable identity facts (name, location, job title, languages, contact)
+        preferences     – explicitly stated communication, workflow, or tool preferences
+        work_info       – job details, employer, team, role, active work context
+        skills          – abilities and expertise the user states
+        interests       – hobbies and topics the user cares about
+        context         – active projects, goals, and current situation
+        important_facts – factual claims the user explicitly asks you to remember
+        user_requested  – tag-along details tied to an explicit "please remember" request
+
+      RULES:
+        1. Only persist what is EXPLICITLY stated or confirmed. Do not invent or over-infer.
+        2. One fact per line, concise (under ~15 words), tagged with date when the fact is time-sensitive.
+        3. When a fact already exists under a key, PRESERVE the prior contents and MERGE the new
+           information into the same entry — never silently drop earlier facts.
+        4. Update: if a detail changes (e.g. new job), the OLD value is replaced only for that
+           changed fact; keep everything else intact.
+        5. Delete: remove an entry/fact only when the user asks to forget it, or it is explicitly
+           corrected/outdated. When in doubt, keep it.
+        6. If the user says "remember X", store it in important_facts or user_requested with a date.
+        7. Never store sensitive data (passwords, tokens, API keys, full credentials).
     model_parameters:
       temperature: 0.1
 
