@@ -869,31 +869,31 @@ endpoints:
 #     # timeout: 15000          # HTTP request timeout in milliseconds (max 120000); Tavily Extract receives seconds clamped to 1-60
 
 # Memory configuration for user memories
-# memory:
+memory:
 #   # (optional) Disable memory functionality
-#   disabled: false
+  disabled: false
 #   # (optional) Restrict memory keys to specific values to limit memory storage and improve consistency
-#   validKeys: ["preferences", "work_info", "personal_info", "skills", "interests", "context"]
+  validKeys: ["preferences", "work_info", "personal_info", "skills", "interests", "context"]
 #   # (optional) Maximum token limit for stored memory values
-#   tokenLimit: 10000
+  tokenLimit: 10000
 #   # (optional) Maximum tokens from recent chat sent to the memory agent before truncation
-#   maxInputTokens: 12000
+  maxInputTokens: 12000
 #   # (optional) Enable personalization features (defaults to true if memory is configured)
 #   # When false, users will not see the Personalization tab in settings
-#   personalize: true
+  personalize: true
 #   # (optional) Memory agent configuration for automatic memory updates from chat messages.
 #   # If omitted, users can still create, edit, delete, and reference memories manually.
-#   agent:
+  agent:
 #     # Explicitly enables automatic memory updates from chat messages.
-#     enabled: true
+    enabled: true
 #     # Option 1: Use existing agent by ID
 #     id: "your-memory-agent-id"
 #     # Option 2: Define agent inline
-#     # provider: "openai"
-#     # model: "gpt-4o-mini"
-#     # instructions: "You are a memory management assistant. Store and manage user information accurately."
-#     # model_parameters:
-#     #   temperature: 0.1
+    provider: "openrouter"
+    model: "deepseek-v4-flash-0731"
+    instructions: "You are a memory management assistant. Store and manage user information accurately."
+    model_parameters:
+      temperature: 0.1
 
 # Reject chat messages whose text matches credential-shaped patterns
 # before they reach moderation, the model, or persistence. Filter
