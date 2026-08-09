@@ -889,8 +889,8 @@ memory:
 #     # Option 1: Use existing agent by ID
 #     id: "your-memory-agent-id"
 #     # Option 2: Define agent inline
-    provider: "openrouter"
-    model: "deepseek-v4-flash-0731"
+    provider: "OpenRouter"
+    model: "deepseek/deepseek-v4-flash-0731"
     instructions: "You are a memory management assistant. Store and manage user information accurately."
     model_parameters:
       temperature: 0.1
